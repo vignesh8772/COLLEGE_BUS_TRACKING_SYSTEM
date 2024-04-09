@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Bus Tracking System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            background-image: url('https://source.unsplash.com/1600x900/?bus,track');
+            background-size: cover;
+            background-position: center;
+            color: #333; /* Text color for readability */
+            position: relative; /* Ensure positioning is relative to body */
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+        header {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for header */
+            color: #333; /* Text color */
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+            font-size: 36px; /* Larger font size for title */
+            color: #007bff; /* Blue color for title */
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background for content */
+            border-radius: 10px; /* Rounded corners for the box */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        form {
+            max-width: 400px; /* Adjust form width for mobile view */
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #clock {
+            position: absolute; /* Position absolutely */
+            bottom: 20px; /* 20px from bottom */
+            right: 20px; /* 20px from right */
+            font-size: 24px;
+            color: #fff; /* White color for time display */
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for time display */
+            padding: 10px; /* Add padding for better visibility */
+            border-radius: 5px; /* Rounded corners */
+        }
+        #credits {
+            text-align: center;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+    </style>
+    <script>
+        // Function to display current time in IST 12-hour format
+        function displayTime() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // Handle midnight (0 hours)
+            // Pad single digit minutes and seconds with leading zeros
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+            var timeString = hours + ':' + minutes + ':' + seconds + ' ' + ampm;
+            document.getElementById('clock').innerText = timeString;
+            // Update time every second
+            setTimeout(displayTime, 1000);
+        }
+
+        // Function to handle form submission and redirection
+        function handleFormSubmit() {
+            var fromSelect = document.getElementById('from');
+            var selectedOption = fromSelect.options[fromSelect.selectedIndex].value;
+            if (selectedOption === 'Thiruvarur') {
+                window.location.href = 'bus_schedule.html';
+            }
+        }
+    </script>
+</head>
+<body onload="displayTime()">
+    <header>
+        <h1>College Bus Tracking System</h1>
+        <div id="credits">
+            <p>HEMPRASATHA | KAILASATHAN | VIGNESH</p>
+        </div>
+    </header>
+    <div class="container">
+        <h2>Location Details</h2>
+        <table>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ longitude }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ date }}</td>
+            </tr>
+            <tr>
+                <th>Time</th>
+                <td>{{ time }}</td>
+            </tr>
+        </table>
+        <h2>Specify Bus Route</h2>
+        <form onsubmit="handleFormSubmit(); return false;">
+            <label for="from">From:</label>
+            <select id="from" name="from">
+                <option value="Nagapattinam">Nagapattinam</option>
+                <option value="Thiruvarur">Thiruvarur</option>
+            </select>
+<label for="to">To:</label>
+            <select id="to" name="to">
+                <option value="EGS Pillay Engineering College, Nagapattinam">EGS Pillay Engineering College, Nagapattinam</option>
+                <!-- Add more options as needed -->
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div id="clock"></div>
+</body>
+</html>

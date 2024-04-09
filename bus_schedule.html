@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Schedule</title>
+   <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            background-image: url('https://source.unsplash.com/1600x900/?gps,information');
+            background-size: cover;
+            background-position: center;
+            color: #333; /* Text color for readability */
+            position: relative; /* Ensure positioning is relative to body */
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+    .schedule-box {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 400px;
+      background-color: rgba(255, 255, 255, 0.8); /* White box background with transparency */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow for depth */
+    }
+
+    .schedule-title {
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .schedule-info {
+      margin-bottom: 10px;
+    }
+
+    .schedule-info span {
+      font-weight: bold;
+    }
+
+    .village-item {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="schedule-box">
+    <h2 class="schedule-title">Bus Schedule</h2>
+    <div class="schedule-info">
+      <p><span>Departure Time:</span> 8:00 AM</p>
+      <p><span>Destination Time:</span> 9:10 AM</p>
+      <p><span>Route:</span> Thiruvarur to Nagapattinam</p>
+    </div>
+    <ul id="village-list">
+      <!-- The list of villages will be populated dynamically -->
+    </ul>
+  </div>
+
+  <script>
+    // List of villages
+    var villages = [
+      "Vadakadu",
+      "Arasalaru",
+      "Kottur",
+      "Valangaiman",
+      "Ammayapuram",
+      "Kattumavadi",
+      "Puthur",
+      "Keelathottam",
+      "Melathottam",
+      "Madirangudi",
+      "Sirupoondi",
+      "Ammangudi",
+      "Madukkur",
+      "Thiruthuraipoondi"
+    ];
+
+    var departureTime = new Date("2024-04-09T08:00:00"); // Departure time at 8:00 AM
+    var destinationTime = new Date("2024-04-09T09:00:00"); // Destination time at 9:00 AM
+    var speed = 30; // Speed in km/h
+    var waitTime = 3; // Waiting time at each village in minutes
+
+    var totalTime = (destinationTime - departureTime) / (1000 * 60 * 60); // Total time for the journey in hours
+    var totalDistance = 90; // Total distance in kilometers
+
+    var villageList = document.getElementById("village-list");
+    var currentTime = departureTime;
+    villages.forEach(function(village) {
+      var timeToAdd = (1 / speed) * 60 * 60 * 1000; // Time to travel 1 km in milliseconds
+      var arrivalTime = new Date(currentTime.getTime() + timeToAdd); // Calculate arrival time for current village
+      var arrivalHour = arrivalTime.getHours();
+      var arrivalMinutes = arrivalTime.getMinutes();
+      var arrivalTimeString = (arrivalHour < 10 ? "0" : "") + arrivalHour + ":" + (arrivalMinutes < 10 ? "0" : "") + arrivalMinutes;
+      var listItem = document.createElement("li");
+      listItem.textContent = village + " - Estimated Arrival Time: " + arrivalTimeString;
+      listItem.classList.add("village-item");
+      villageList.appendChild(listItem);
+      // Add waiting time at each village (except the last one)
+      if (village !== villages[villages.length - 1]) {
+        arrivalTime.setMinutes(arrivalTime.getMinutes() + waitTime);
+      }
+      currentTime = arrivalTime; // Update current time for the next village
+    });
+  </script>
+</body>
+</html>
