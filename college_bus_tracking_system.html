@@ -11,7 +11,7 @@
             padding: 0;
             opacity: 0;
             animation: fadeIn 1s ease forwards;
-            background-image: url('https://source.unsplash.com/1600x900/?bus,track');
+            background-image: url('https://source.unsplash.com/1600x900/?location,track');
             background-size: cover;
             background-position: center;
             color: #333; /* Text color for readability */
@@ -133,7 +133,7 @@
     <header>
         <h1>College Bus Tracking System</h1>
         <div id="credits">
-            <p>HEMPRASATHA | KAILASATHAN | VIGNESH</p>
+            <p>Hemprasath | Kailasanathan | Vignesh</p>
         </div>
     </header>
     <div class="container">
@@ -155,6 +155,9 @@
                 <th>Time</th>
                 <td>{{ time }}</td>
             </tr>
+            <p>
+            <a href="http://maps.google.com/maps?&z=15&mrt=yp&t=k&q={{ lat_str }}+{{ lng_str }}" target="_blank">View on Google Maps</a>
+        </p>
         </table>
         <h2>Specify Bus Route</h2>
         <form onsubmit="handleFormSubmit(); return false;">
